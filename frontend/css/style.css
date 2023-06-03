@@ -25,14 +25,12 @@ body {
 #conteudo {
   position: absolute;
   width: 990px;
-  height: 800px;
   background: #fff;
 }
 
 #tela {
   position: relative;
   left: 0px;
-  top: 105px;
   width: 642px;
   height: 603px;
 }
@@ -40,7 +38,7 @@ body {
 #topo {
   position: absolute;
   left: 642px;
-  top: 102px;
+  top: -3px;
   width: 274px;
   height: 261px;
 }
@@ -48,7 +46,7 @@ body {
 #faixaDir {
   position: absolute;
   left: 916px;
-  top: 137px;
+  top: 32px;
   width: 55px;
   height: 512px;
 }
@@ -56,7 +54,7 @@ body {
 #ladoEsqTec {
   position: absolute;
   left: 642px;
-  top: 363px;
+  top: 258px;
   width: 27px;
   height: 227px;
 }
@@ -64,7 +62,7 @@ body {
 #n_1 {
   position: absolute;
   left: 669px;
-  top: 363px;
+  top: 258px;
   width: 73px;
   height: 58px;
 }
@@ -72,7 +70,7 @@ body {
 #n_2 {
   position: absolute;
   left: 742px;
-  top: 363px;
+  top: 258px;
   width: 68px;
   height: 58px;
 }
@@ -80,7 +78,7 @@ body {
 #n_3 {
   position: absolute;
   left: 810px;
-  top: 363px;
+  top: 258px;
   width: 69px;
   height: 58px;
 }
@@ -88,7 +86,7 @@ body {
 #ladoDirTec {
   position: absolute;
   left: 879px;
-  top: 363px;
+  top: 258px;
   width: 37px;
   height: 216px;
 }
@@ -96,7 +94,7 @@ body {
 #n_4 {
   position: absolute;
   left: 669px;
-  top: 421px;
+  top: 316px;
   width: 73px;
   height: 60px;
 }
@@ -104,7 +102,7 @@ body {
 #n_5 {
   position: absolute;
   left: 742px;
-  top: 421px;
+  top: 316px;
   width: 68px;
   height: 60px;
 }
@@ -112,7 +110,7 @@ body {
 #n_6 {
   position: absolute;
   left: 810px;
-  top: 421px;
+  top: 316px;
   width: 69px;
   height: 60px;
 }
@@ -120,7 +118,7 @@ body {
 #n_7 {
   position: absolute;
   left: 669px;
-  top: 481px;
+  top: 376px;
   width: 73px;
   height: 58px;
 }
@@ -128,7 +126,7 @@ body {
 #n_8 {
   position: absolute;
   left: 742px;
-  top: 481px;
+  top: 376px;
   width: 68px;
   height: 58px;
 }
@@ -136,7 +134,7 @@ body {
 #n_9 {
   position: absolute;
   left: 810px;
-  top: 481px;
+  top: 376px;
   width: 69px;
   height: 58px;
 }
@@ -144,7 +142,7 @@ body {
 #n_0 {
   position: absolute;
   left: 742px;
-  top: 539px;
+  top: 434px;
   width: 80px;
   height: 51px;
 }
@@ -152,7 +150,7 @@ body {
 #confirma {
   position: absolute;
   left: 822px;
-  top: 579px;
+  top: 474px;
   width: 94px;
   height: 70px;
 }
@@ -160,7 +158,7 @@ body {
 #branco {
   position: absolute;
   left: 642px;
-  top: 590px;
+  top: 485px;
   width: 90px;
   height: 59px;
 }
@@ -168,7 +166,7 @@ body {
 #corrige {
   position: absolute;
   left: 732px;
-  top: 590px;
+  top: 485px;
   width: 90px;
   height: 59px;
 }
@@ -176,7 +174,7 @@ body {
 #ptabaixo7 {
   position: absolute;
   left: 669px;
-  top: 539px;
+  top: 434px;
   width: 73px;
   height: 51px;
 }
@@ -184,7 +182,7 @@ body {
 #ptabaixo9 {
   position: absolute;
   left: 822px;
-  top: 539px;
+  top: 434px;
   width: 57px;
   height: 40px;
 }
@@ -192,7 +190,7 @@ body {
 #abaixoTec {
   position: absolute;
   left: 642px;
-  top: 649px;
+  top: 544px;
   width: 324px;
   height: 40px;
 }
@@ -200,21 +198,50 @@ body {
 #painel {
   display: block;
   position: relative;
-  left: -170px;
-  top: 72px;
+  left: -171px;
+  top: 64px;
   width: 547px;
   height: 319px;
-  background-color: #fff;
 }
 
-#nav {
-  background-color: rgb(90, 71, 177);
-  height: 50px;
+#painel__container {
+  padding: 10px;
 }
 
-#footer {
+.numInput {
+  background: rgba(255, 255, 255, 0);
+  width: 25px;
+  font-size: 47px;
+  height: 40px;
+  position: relative;
+  bottom: 2px;
+}
+
+#voteArea {
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+#applicantRank {
   text-align: center;
-  background-color: black;
-  color: #fff;
-  height: 30px;
+  display: block;
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+#infoVote {
+  margin-top: 65px;
+  display: block;
+}
+
+#photoApplicant {
+  border: 1px solid rgb(136, 136, 136);
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

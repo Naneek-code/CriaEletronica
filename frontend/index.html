@@ -7,8 +7,7 @@
     <link rel="shortcut icon" href="./favicon/favicon.jpg" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
-  <body onselectstart="return false">
-    <div id="nav"></div>
+  <body onload="showTime();" onselectstart="return false">
     <div id="main">
       <div id="conteudo">
         <img
@@ -174,7 +173,7 @@
           width="63"
           height="41"
           border="0"
-          style="cursor: pointer"
+          style="cursor: not-allowed"
         />
         <img
           id="corrige"
@@ -194,9 +193,36 @@
           border="0"
         />
       </div>
-      <div id="painel"></div>
+      <div id="painel">
+        <div id="painel__container">
+          <span id="time"></span>
+          <br />
+          <div id="voteArea">
+            <span class="bold">SEU VOTO PARA</span> <br />
+            <span id="applicantRank">Presidente</span> <br />
+            <span id="applicantNumber">
+              Número:
+              <input maxlength="1" class="numInput" readonly />
+              <input maxlength="1" class="numInput" readonly />
+            </span>
+            <br />
+            Nome:&nbsp;&nbsp;&nbsp;&nbsp;<span id="applicantName"></span>
+            <img
+              id="photoApplicant"
+              src="./image/applicant.png"
+              width="120px"
+              height="150px"
+            />
+            <span id="infoVote" class="bold">
+              <hr />
+              Aperte a tecla: <br />
+              &nbsp; &nbsp; &nbsp; CONFIRMA para CONFIRMAR este voto <br />
+              &nbsp; &nbsp; &nbsp; &nbsp; CORRIGE para REINICIAR este voto
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="footer">Durval é uma bicha</div>
     <script src="./js/script.js"></script>
   </body>
 </html>
