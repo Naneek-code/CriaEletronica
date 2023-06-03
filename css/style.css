@@ -58,7 +58,6 @@ body {
 }
 
 #conteudo {
-  z-index: -1;
   position: absolute;
   width: 990px;
   background: #fff;
