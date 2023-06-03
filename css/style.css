@@ -16,13 +16,49 @@ body {
 #main {
   height: 100vh;
   min-width: 550px;
+  min-height: 600px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
+#navBar {
+  color: #fff;
+  background-color: #1f345d;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+}
+
+#navBar p {
+  margin-left: 200px;
+}
+#navBar img {
+  left: 90px;
+}
+
+#footerBar {
+  color: #fff;
+  background-color: #1f345d;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+}
+
+#footerBar img,
+#navBar img {
+  float: left;
+  position: relative;
+  top: 10px;
+}
+
+#footerBar p {
+  text-align: center;
+}
+
 #conteudo {
+  z-index: -1;
   position: absolute;
   width: 990px;
   background: #fff;
