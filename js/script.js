@@ -88,7 +88,6 @@ botaoConfirma.addEventListener("click", function () {
   // verifica se o candidato existe e então libera o fetch
   if (isValidApplicant) {
     // Concatenar os valores dos inputs 1 e 2
-    const valorConcatenado = input1.value + input2.value;
 
     // Enviar o valor para a API
     fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9?sheet=Votos", {
@@ -100,7 +99,7 @@ botaoConfirma.addEventListener("click", function () {
       body: JSON.stringify({
         data: [
           {
-            Voto: valorConcatenado,
+            Voto: idApplicant,
           },
         ],
       }),
@@ -110,8 +109,14 @@ botaoConfirma.addEventListener("click", function () {
     localStorage.setItem("confirmado", true);
 
     verifyLocalStorage();
+    playSound();
   }
 });
+
+function playSound() {
+  const audio = document.getElementById("myAudio");
+  audio.play();
+}
 
 const displayFim = document.querySelector(".alredyVoted");
 
