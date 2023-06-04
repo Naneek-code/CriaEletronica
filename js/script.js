@@ -38,8 +38,11 @@ const numeros = document.getElementsByClassName("numero");
 const botaoCorrige = document.getElementById("corrige");
 const botaoConfirma = document.getElementById("confirma");
 
+// Botões da urna alterarem INPUTS de votação.
+//
 // Variável para controlar qual input deve ser preenchido
 let inputAtivo = input1;
+let idApplicant;
 
 // Adicionar evento de clique às imagens de números
 for (let i = 0; i < numeros.length; i++) {
@@ -53,7 +56,8 @@ for (let i = 0; i < numeros.length; i++) {
 
     // Adicionar o número ao input ativo
     inputAtivo.value += numero;
-    inputAtivo.focus();
+    idApplicant = input1.value + input2.value;
+    showApplicantData(idApplicant);
 
     // Alternar entre os inputs apenas se o input atual não estiver vazio
     if (inputAtivo.value !== "") {
@@ -66,45 +70,75 @@ for (let i = 0; i < numeros.length; i++) {
 botaoCorrige.addEventListener("click", function () {
   input1.value = "";
   input2.value = "";
+  idApplicant = undefined;
   inputAtivo = input1;
+  nome.innerHTML = "";
+  foto.src = "./image/applicant.png";
+  isValidApplicant = false;
 });
+// FIM Botões urna alternarem inputs de votação
 
 // Adicionar evento de clique ao botão Confirma
 botaoConfirma.addEventListener("click", function () {
   // Verificar se já foi confirmado anteriormente
-  //  if (localStorage.getItem("confirmado")) {
-  //    console.log("ja votou vacilão");
-  //    return;
-  //  }
+  if (localStorage.getItem("confirmado")) {
+    return;
+  }
 
-  // Concatenar os valores dos inputs 1 e 2
-  const valorConcatenado = input1.value + input2.value;
+  // verifica se o candidato existe e então libera o fetch
+  if (isValidApplicant) {
+    // Concatenar os valores dos inputs 1 e 2
+    const valorConcatenado = input1.value + input2.value;
 
-  // Enviar o valor para a API RESTful (substitua pelo seu código de envio para a API)
-  fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9?sheet=Votos", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      data: [
-        {
-          Voto: valorConcatenado,
-        },
-      ],
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
-  // Marcar como confirmado no localStorage
-  localStorage.setItem("confirmado", true);
+    // Enviar o valor para a API
+    fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9?sheet=Votos", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            Voto: valorConcatenado,
+          },
+        ],
+      }),
+    }).then((response) => response.json());
+
+    // Marcar como confirmado no localStorage
+    localStorage.setItem("confirmado", true);
+
+    verifyLocalStorage();
+  }
 });
 
-//
-//
-//
-//
+const displayFim = document.querySelector(".alredyVoted");
+
+// verificação para exibição de FIM.
+function verifyLocalStorage() {
+  if (localStorage.getItem("confirmado")) {
+    displayFim.classList.toggle("display");
+  }
+}
+
+verifyLocalStorage();
+
+let nome = document.getElementById("applicantName");
+let foto = document.getElementById("photoApplicant");
+let isValidApplicant;
+
+function showApplicantData(idApplicant) {
+  myData.forEach((e) => {
+    const numero = e.NumeroCandidato;
+
+    if (numero === idApplicant) {
+      foto.src = e.FotoCandidato;
+      nome.innerHTML = e.NomeCandidato;
+      isValidApplicant = true;
+    }
+  });
+}
 
 let myData; // Objeto de escopo global
 
