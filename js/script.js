@@ -3,92 +3,77 @@ const dateUrna = document.getElementById("time");
 // atualização da data em tempo real.
 function refreshTime() {
   const refresh = 1000;
-  time = setTimeout("showTime()", refresh);
+  setTimeout(showTime, refresh);
 }
 
 function showTime() {
   const data = new Date();
 
-  const fullDay = Array("DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB");
-  let day = data.getDate().toString();
-  day = day.length == 1 ? 0 + day : day;
-  let month = (data.getMonth() + 1).toString();
-  month = month.length == 1 ? 0 + month : month;
-  let hours = data.getHours().toString();
-  hours = hours.length == 1 ? 0 + hours : hours;
-  let minutes = data.getMinutes().toString();
-  minutes = minutes.length == 1 ? 0 + minutes : minutes;
-  let seconds = data.getSeconds().toString();
-  seconds = seconds.length == 1 ? 0 + seconds : seconds;
+  const fullDay = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"];
+  const day = data.getDate().toString().padStart(2, "0");
+  const month = (data.getMonth() + 1).toString().padStart(2, "0");
+  const hours = data.getHours().toString().padStart(2, "0");
+  const minutes = data.getMinutes().toString().padStart(2, "0");
+  const seconds = data.getSeconds().toString().padStart(2, "0");
 
   const data_atual = `${
     fullDay[data.getDay()]
   } ${day}/${month}/${data.getFullYear()}`;
-  let hora_atual = `${hours}:${minutes}:${seconds}`;
+  const hora_atual = `${hours}:${minutes}:${seconds}`;
 
-  dateUrna.innerHTML = `${data_atual} ${hora_atual}`;
+  dateUrna.textContent = `${data_atual} ${hora_atual}`;
   refreshTime();
 }
-// fim atualização da data em tempo real.
 
-// Obter referências aos elementos do HTML
 const input1 = document.getElementById("input1");
 const input2 = document.getElementById("input2");
 const numeros = document.getElementsByClassName("numero");
 const botaoCorrige = document.getElementById("corrige");
 const botaoConfirma = document.getElementById("confirma");
-
-// Botões da urna alterarem INPUTS de votação.
-//
-// Variável para controlar qual input deve ser preenchido
-let inputAtivo = input1;
-let idApplicant;
+const displayFim = document.querySelector(".alredyVoted");
+const nome = document.getElementById("applicantName");
+const foto = document.getElementById("photoApplicant");
+let isValidApplicant;
 
 // Adicionar evento de clique às imagens de números
 for (let i = 0; i < numeros.length; i++) {
-  numeros[i].addEventListener("click", function () {
-    const numero = this.alt;
-
-    // Verificar se ambos os inputs estão preenchidos
-    if (input1.value !== "" && input2.value !== "") {
-      return;
-    }
-
-    // Adicionar o número ao input ativo
-    inputAtivo.value += numero;
-    idApplicant = input1.value + input2.value;
-    showApplicantData(idApplicant);
-
-    // Alternar entre os inputs apenas se o input atual não estiver vazio
-    if (inputAtivo.value !== "") {
-      inputAtivo = inputAtivo === input1 ? input2 : input1;
-    }
-  });
+  numeros[i].addEventListener("click", handleNumberClick);
 }
 
-// Adicionar evento de clique ao botão Corrige
-botaoCorrige.addEventListener("click", function () {
+// Manipula o clique nos números
+function handleNumberClick() {
+  const numero = this.alt;
+
+  // Verificar se o primeiro input está vazio
+  if (input1.value === "") {
+    input1.value = numero;
+  }
+  // Verificar se o segundo input está vazio
+  else if (input2.value === "") {
+    input2.value = numero;
+    idApplicant = input1.value + input2.value;
+    showApplicantData(idApplicant);
+  }
+}
+
+// Manipula o clique no botão "Corrige"
+function handleCorrigeClick() {
   input1.value = "";
   input2.value = "";
   idApplicant = undefined;
-  inputAtivo = input1;
-  nome.innerHTML = "";
+  nome.textContent = "";
   foto.src = "./image/applicant.png";
   isValidApplicant = false;
-});
-// FIM Botões urna alternarem inputs de votação
+}
 
-// Adicionar evento de clique ao botão Confirma
-botaoConfirma.addEventListener("click", function () {
+// Manipula o clique no botão "Confirma"
+function handleConfirmaClick() {
   // Verificar se já foi confirmado anteriormente
   if (localStorage.getItem("confirmado")) {
     return;
   }
 
-  // verifica se o candidato existe e então libera o fetch
   if (isValidApplicant) {
-    // Concatenar os valores dos inputs 1 e 2
-
     // Enviar o valor para a API
     fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9?sheet=Votos", {
       method: "POST",
@@ -103,65 +88,59 @@ botaoConfirma.addEventListener("click", function () {
           },
         ],
       }),
-    }).then((response) => response.json());
-
-    // Marcar como confirmado no localStorage
-    localStorage.setItem("confirmado", true);
-
-    verifyLocalStorage();
-    playSound();
+    })
+      .then((response) => response.json())
+      .then(() => {
+        // Marcar como confirmado no localStorage
+        localStorage.setItem("confirmado", true);
+        verifyLocalStorage();
+        playSound();
+      })
+      .catch((error) => {
+        console.error("Ocorreu um erro:", error);
+      });
   }
-});
+}
 
+// Reproduzir som de confirmação
 function playSound() {
   const audio = document.getElementById("myAudio");
   audio.play();
 }
 
-const displayFim = document.querySelector(".alredyVoted");
-
-// verificação para exibição de FIM.
+// Verificar se já foi confirmado no localStorage
 function verifyLocalStorage() {
   if (localStorage.getItem("confirmado")) {
     displayFim.classList.toggle("display");
   }
 }
 
-verifyLocalStorage();
-
-let nome = document.getElementById("applicantName");
-let foto = document.getElementById("photoApplicant");
-let isValidApplicant;
-
+// Exibir os dados do candidato
 function showApplicantData(idApplicant) {
   myData.forEach((e) => {
-    const numero = e.NumeroCandidato;
-
-    if (numero === idApplicant) {
+    if (e.NumeroCandidato === idApplicant) {
       foto.src = e.FotoCandidato;
-      nome.innerHTML = e.NomeCandidato;
+      nome.textContent = e.NomeCandidato;
       isValidApplicant = true;
     }
   });
 }
 
-let myData; // Objeto de escopo global
+let myData;
 
+// Buscar os dados da API e salvar no localStorage
 function fetchDataAndSaveIndicator() {
-  // Verificar se o indicador já está presente no localStorage
+  // Verificar se já foi buscado anteriormente
   if (localStorage.getItem("fetchExecutado")) {
-    return;
+    return Promise.resolve();
   }
 
-  fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9")
+  return fetch("https://sheetdb.io/api/v1/smd2hz3xwo7f9")
     .then((response) => response.json())
     .then((data) => {
-      // Copiar o JSON para o objeto de escopo global
       myData = data;
-
       // Salvar o objeto no localStorage
       localStorage.setItem("meuObjeto", JSON.stringify(myData));
-
       // Salvar indicador no localStorage
       localStorage.setItem("fetchExecutado", "true");
     })
@@ -170,12 +149,18 @@ function fetchDataAndSaveIndicator() {
     });
 }
 
-// Chamar a função para fazer a solicitação
-fetchDataAndSaveIndicator();
-
-// Recuperar o objeto salvo no localStorage
-const savedObject = localStorage.getItem("meuObjeto");
-if (savedObject) {
-  myData = JSON.parse(savedObject);
-  console.log("Objeto recuperado do localStorage:", myData);
+// Função de inicialização
+function initialize() {
+  refreshTime();
+  botaoCorrige.addEventListener("click", handleCorrigeClick);
+  botaoConfirma.addEventListener("click", handleConfirmaClick);
+  verifyLocalStorage();
+  const savedObject = localStorage.getItem("meuObjeto");
+  if (savedObject) {
+    myData = JSON.parse(savedObject);
+    console.log("Objeto recuperado do localStorage:", myData);
+  }
 }
+
+// Chamar a função para buscar os dados e iniciar o código
+fetchDataAndSaveIndicator().then(initialize);
