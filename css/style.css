@@ -15,8 +15,7 @@ body {
 
 #main {
   height: 100vh;
-  min-width: 550px;
-  min-height: 600px;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -29,11 +28,14 @@ body {
   width: 100vw;
   position: fixed;
   top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 #navBar p {
   margin-left: 200px;
 }
+
 #navBar img {
   left: 90px;
 }
@@ -44,6 +46,7 @@ body {
   width: 100vw;
   position: fixed;
   bottom: 0;
+  left: 0;
 }
 
 #footerBar img,
@@ -59,7 +62,7 @@ body {
 
 #conteudo {
   position: absolute;
-  width: 990px;
+  width: 920px;
   background: #fff;
 }
 
@@ -233,7 +236,7 @@ body {
 #painel {
   display: block;
   position: relative;
-  left: -171px;
+  right: 137px;
   top: 64px;
   width: 547px;
   height: 319px;

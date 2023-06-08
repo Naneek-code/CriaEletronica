@@ -1,0 +1,20 @@
+#navBar p {
+  margin-left: 110px;
+}
+
+#navBar img {
+  left: 0px;
+  top: 17px;
+}
+
+#conteudo {
+  transform: scale(0.38);
+}
+
+#painel {
+  transform: scale(0.53);
+  right: 53px;
+  top: 23px;
+  height: 225px;
+  overflow: hidden;
+}
